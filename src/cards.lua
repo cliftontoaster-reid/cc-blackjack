@@ -269,4 +269,28 @@ function cards.getImageScaled(idx, scale)
     return scaledImage
 end
 
+-- Assumes 'colors' API is available, e.g., via local colors = require("colors")
+-- Assumes TR = 1 and fl = 0 are defined as before
+
+function cards.colourImage(image, colour)
+    except(1, image, "table")
+    except(2, colour, "number")
+
+    local colouredImage = {}
+    for i = 1, #image do
+        local row = image[i]
+        local colouredRow = {}
+        for j = 1, #row do
+            if row[j] == TR then              -- Check if the pixel value is TR (1)
+                colouredRow[j] = colour       -- Use the provided colour for TR pixels
+            else                              -- Otherwise (pixel value is fl (0))
+                colouredRow[j] = colors.black -- Use black for fl pixels
+            end
+        end
+        colouredImage[i] = colouredRow
+    end
+
+    return colouredImage
+end
+
 return cards
