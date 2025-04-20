@@ -297,4 +297,22 @@ function cards.colourImage(image, colour)
     return colouredImage
 end
 
+function cards.getCardImage(card, scale)
+    except(1, card, "table")
+    except(2, scale, "number")
+
+    if not card.index or not card.colour then
+        error("Invalid card object: " .. tostring(card))
+    end
+
+    local image = cards.getImage(card.index)
+    if scale == 1 then
+        return cards.colourImage(image, card.colour)
+    end
+    local scaledImage = cards.getImageScaled(card.index, scale)
+    local colouredImage = cards.colourImage(scaledImage, card.colour)
+
+    return colouredImage
+end
+
 return cards
