@@ -35,6 +35,10 @@ local fl = 0
 local cards = {}
 local except = require("cc.expect").expect
 
+---@class Card
+---@field index number
+---@field colour number
+
 cards.small = {
     --- One
     {
