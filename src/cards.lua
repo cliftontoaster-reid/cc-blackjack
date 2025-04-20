@@ -216,6 +216,11 @@ cards.names = {
 
 cards._scaledCache = {}
 
+--- Gets the raw, unscaled image data for a card by its index.
+--- The image is represented by a 2D table of 0s and 1s.
+--- @param idx number The index of the card (1-13).
+--- @return table The 2D table representing the card image.
+--- @raise error If the index is invalid.
 function cards.getImage(idx)
     except(1, idx, "number")
     if idx < 1 or idx > #cards.small then
@@ -224,6 +229,10 @@ function cards.getImage(idx)
     return cards.small[idx]
 end
 
+--- Gets the name of the card by its index.
+--- @param idx number The index of the card (1-13).
+--- @return string The name of the card (e.g., "Ace", "King").
+--- @raise error If the index is invalid.
 function cards.getCardName(idx)
     except(1, idx, "number")
     if idx < 1 or idx > #cards.names then
@@ -232,6 +241,12 @@ function cards.getCardName(idx)
     return cards.names[idx]
 end
 
+--- Gets the raw image data for a card, scaled by a factor.
+--- Uses an internal cache to avoid recalculating scaled images.
+--- @param idx number The index of the card (1-13).
+--- @param scale number The scaling factor (must be >= 1).
+--- @return table The scaled 2D table representing the card image (0s and 1s).
+--- @raise error If the index or scale is invalid.
 function cards.getImageScaled(idx, scale)
     except(1, idx, "number")
     except(2, scale, "number")
@@ -276,6 +291,12 @@ end
 -- Assumes 'colors' API is available, e.g., via local colors = require("colors")
 -- Assumes TR = 1 and fl = 0 are defined as before
 
+--- Colours a raw image (0s and 1s).
+--- Pixels with value TR (1) are set to the specified colour.
+--- Pixels with value fl (0) are set to black.
+--- @param image table The raw 2D image table (0s and 1s).
+--- @param colour number The colour to use for the TR pixels (e.g., colors.red).
+--- @return table The coloured 2D image table.
 function cards.colourImage(image, colour)
     except(1, image, "table")
     except(2, colour, "number")
@@ -297,6 +318,11 @@ function cards.colourImage(image, colour)
     return colouredImage
 end
 
+--- Gets the final, scaled and coloured image for a card object.
+--- @param card Card The card object containing `index` and `colour` fields.
+--- @param scale number The scaling factor (>= 1).
+--- @return table The final, scaled and coloured 2D image table.
+--- @raise error If the card object is invalid or scale is invalid.
 function cards.getCardImage(card, scale)
     except(1, card, "table")
     except(2, scale, "number")
